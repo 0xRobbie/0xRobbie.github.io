@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allura ONE Challenge</title>
+
+    <style>
+        body{
+            background-color: aliceblue;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow';
+        }
+
+        h1 {
+            text-align: center;
+            color: crimson;
+        }
+
+        table {
+            width: 100%;
+            text-transform: uppercase;
+        }
+        
+        td {
+            text-align: center;
+        }
+        
+        input {
+            border-radius: 10px;
+            width: 70%;
+            margin: 1em;
+            padding: 1em;
+        }
+        
+        button {
+            border: 0px;
+            border-radius: 25px;
+            width: 30%;
+            margin: 1em;
+            padding: 1em;
+            text-transform: uppercase;
+            font-size: large;
+        }
+
+        .btnEncriptar {
+            background-color: green;
+            color: white;
+        }
+
+        .btnDesencriptar {
+            background-color: crimson;
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Allura ONE Challenge</h1>
+
+    <table>
+        <tr>
+            <td>
+                <label for="msj">Ingresar mensaje</label>  <br>
+                <p class="regla" id="regla">solo minusculas sin acento</p>
+                <input id="msj" type="text" placeholder="Ingresar mensaje a encriptar"> <br>
+                <button class="btnEncriptar" onclick="encriptar()">Encriptar</button>
+                <button class="btnDesencriptar" onclick="desencriptar()">Desencriptar</button>
+            </td>
+            <td>
+                <p>Resultado:</p>
+                <textarea name="resultado" id="resultado" cols="30" rows="10" placeholder="Aqui se mostrará el resultado" type="password"></textarea>
+                <br>
+                <button onclick="copiar()">Copiar</button>
+            </td>
+        </tr>
+    </table>
+
+    <footer>
+        Creado por Roberto Chagal
+    </footer>
+    
+    <script>
+        function encriptar() {
+            var mensaje = document.getElementById("msj").value;
+            var mensajeEncriptado = "";
+
+            if (this.validar()) {
+                for (let index = 0; index < mensaje.length; index++) {
+                    letra = mensaje[index];
+    
+                    if (letra == 'e') { letra = 'enter' };
+                    if (letra == 'i') { letra = 'imes' };
+                    if (letra == 'a') { letra = 'ai' };
+                    if (letra == 'o') { letra = 'ober' };
+                    if (letra == 'u') { letra = 'ufat' };
+    
+                    mensajeEncriptado += letra;
+    
+                }
+                document.getElementById("resultado").value = mensajeEncriptado; 
+            }
+        }
+        
+        function desencriptar() {
+            var mensaje = document.getElementById("msj").value;
+            var mensajeDesencriptado = "";
+
+            if (this.validar()) {
+                for (let index = 0; index < mensaje.length; index++) {
+                    letra = mensaje[index];
+    
+                    if (index > mensaje.length) { break; };
+                    if (letra == 'e') { index += 4; };
+                    if (letra == 'i') { index += 3; };
+                    if (letra == 'a') { index += 1; };
+                    if (letra == 'o') { index += 3; };
+                    if (letra == 'u') { index += 3; };
+    
+                    mensajeDesencriptado += letra;
+                }
+                document.getElementById("resultado").value = mensajeDesencriptado; 
+            }
+        }
+
+        function validar() {
+            var mensaje = document.getElementById("msj").value
+            var valido = false;
+            
+            for (let index = 0; index < mensaje.length; index++) {
+                var unicode = mensaje[index].charCodeAt(0);
+                console.log(mensaje);
+                if ( (unicode >= 97 && unicode <= 122) || unicode == 32 ){
+                    valido = true;
+                    document.getElementById("regla").style.color = "black";
+                } else {
+                    valido = false;
+                    document.getElementById("regla").style.color = "crimson";
+                    break;
+                }
+            }
+            console.log(valido);
+            return valido;
+        }
+
+        function copiar() {
+            var content = document.getElementById('resultado');
+            content.select();
+            document.execCommand('copy');
+            alert("Copiado al portapapeles");
+        }
+
+    </script>
+</body>
+</html>
